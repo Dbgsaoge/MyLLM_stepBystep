@@ -37,4 +37,5 @@ def convert_file(input_path, output_path):
 input_path = os.path.join(PROJECT_ROOT, '/data/tokenizer_data/wiki.txt')
 output_path = os.path.join(PROJECT_ROOT, '/data/tokenizer_data/wiki_s.txt')
 
+# 语料转换为中文
 convert_file(input_path, output_path)

@@ -8,7 +8,7 @@
 
 # 一、数据收集
 
-## 1.1 公开数据集
+## 1 公开数据集
 
 借鉴下目前其他优秀项目收集的优质公开数据集
 
@@ -25,9 +25,10 @@
 
 # 二、预训练(Pretrain)
 
-## 2.1 预训练预料处理
-1. 预训练预料处理
-2. 分词器预料处理
+## 1 预训练预料处理
+
+### 1.1 预训练预料处理
+### 1.2 分词器预料处理
 
 下载后将源文件放入`/data/tokenizer_data`下，提取其中的预料内容,执行`/1_data_process`中的
 ```bash
@@ -39,12 +40,15 @@ python Tokenizer_1_WikiExtractor.py --infn /data/tokenzier_data/zhwiki-latest-pa
 python Tokenizer_2_convert_t2s.py wiki.txt wiki_s.txt
 ```
 
-## 2.2 Tokenizer
+## 2 Train Tokenizer
+
 训练tokenizer，将训练预料准备好并放入指定路径后，执行`2_pretrain`中的
 ```bash
 python 1_train_tokenizer.py
 ```
 训练好后的Tokenizer存储在model_save路径下
+
+## 3* 继续预训练(Continue-training)
 
 ### （可能涉及的框架/库：DeepSpeed, Megatron-LM, transformers...）
 
