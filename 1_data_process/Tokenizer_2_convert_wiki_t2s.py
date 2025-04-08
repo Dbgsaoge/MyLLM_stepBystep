@@ -34,8 +34,10 @@ def convert_file(input_path, output_path):
         if buffer:
             f_out.writelines(buffer)
 
-input_path = os.path.join(PROJECT_ROOT, '/data/tokenizer_data/wiki.txt')
-output_path = os.path.join(PROJECT_ROOT, '/data/tokenizer_data/wiki_s.txt')
-
+input_path = os.path.join(PROJECT_ROOT, 'data/tokenizer_data/wiki.txt')
+output_path = os.path.join(PROJECT_ROOT, 'data/tokenizer_data/wiki_s.txt')
+print(PROJECT_ROOT)
+print(input_path)
 # 语料转换为中文
-convert_file(input_path, output_path)
+if __name__ == '__main__':
+    convert_file(input_path, output_path)

@@ -27,14 +27,10 @@ def train_my_huggingface_wiki_tokenizer(cropus_file: str, max_train_line: int=No
     '''
     训练tokenizer with huggingface，至少需要32G内存，运行大概需要半个小时。
     '''
-
-    # tokenizer_slow_save_path = PROJECT_ROOT + '/model_save/hf_tokenizer_slow/hf_bpe_tokenizer.josn'
-    # tokenizer_fast_save_path = PROJECT_ROOT + '/model_save/hf_tokenizer'
     
-    tokenizer_slow_save_path = os.path.join(PROJECT_ROOT, 'model_save/hf_tokenizer_slow/hf_bpe_tokenizer.josn')
+    tokenizer_slow_save_path = os.path.join(PROJECT_ROOT, 'model_save/hf_tokenizer_slow/hf_bpe_tokenizer.json')
     tokenizer_fast_save_path = os.path.join(PROJECT_ROOT, 'model_save/hf_tokenizer')
 
-    # check_dir_exits(PROJECT_ROOT + '/model_save/hf_tokenizer_slow')
     check_dir_exits(os.path.join(PROJECT_ROOT, 'model_save/hf_tokenizer_slow'))
     check_dir_exits(tokenizer_fast_save_path)
 
@@ -133,26 +129,26 @@ def train_my_huggingface_wiki_tokenizer(cropus_file: str, max_train_line: int=No
     print(f"\ntrain tokenizer finished. you can use `AutoTokenizer.from_pretrained('{tokenizer_fast_save_path}')` to load and test your tokenizer.")
 
 
-def train_my_BPE_tokenizer() -> None:
-    '''
-    使用sentencepiece训练BPE，缺点只能加载300万行，16G内存会OOM
-    '''
-    txt_corpus_file = PROJECT_ROOT + '/data/my_corpus.txt'
-    txt_corpus_file = os.path.join(PROJECT_ROOT, 'data/tokenizer_data/my_corpus.txt')
-    special_tokens = ["[PAD]", "[CLS]","[SEP]", "[MASK]", "[UNK]"]
+# def train_my_BPE_tokenizer() -> None:
+#     '''
+#     使用sentencepiece训练BPE，缺点只能加载300万行，16G内存会OOM
+#     '''
+#     txt_corpus_file = PROJECT_ROOT + '/data/my_corpus.txt'
+#     txt_corpus_file = os.path.join(PROJECT_ROOT, 'data/tokenizer_data/my_corpus.txt')
+#     special_tokens = ["[PAD]", "[CLS]","[SEP]", "[MASK]", "[UNK]"]
 
-    tokenizer = spm.SentencePieceTrainer.train(
-        input=txt_corpus_file, 
-        model_prefix='my_tokenizer', 
-        vocab_size=40960, 
-        user_defined_symbols=special_tokens,
-        max_sentence_length=1024,
-        shuffle_input_sentence=True,
-        # character_coverage=1.0,
-        model_type='bpe',
-    )
+#     tokenizer = spm.SentencePieceTrainer.train(
+#         input=txt_corpus_file, 
+#         model_prefix='my_tokenizer', 
+#         vocab_size=40960, 
+#         user_defined_symbols=special_tokens,
+#         max_sentence_length=1024,
+#         shuffle_input_sentence=True,
+#         # character_coverage=1.0,
+#         model_type='bpe',
+#     )
 
-    # 模型文件保存在my_tokenizer下
+#     # 模型文件保存在my_tokenizer下
 
 
 if __name__ == '__main__':

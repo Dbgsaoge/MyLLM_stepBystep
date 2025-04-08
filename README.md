@@ -6,22 +6,27 @@
 
 · 考虑实践0.5B，1B量级的模型，准备使用的基模型为Qwen2和Llama2
 
+· 先在个人电脑上跑一个小体量的模型（暂定0.1B左右），之后将迁移至服务器完成0.5B和1B的流程。
+
+· 个人电脑配置：CPU-13700KF，内存-64G DDR5, GPU-4070Ti，硬盘-4T
+
 # 一、数据收集
 
 ## 1 公开数据集
 
 借鉴下目前其他优秀项目收集的优质公开数据集
 
-| pretrain数据集链接 | 描述  |
-| --- | --- |
-| Wiki中文百科：[wikipedia-cn-20230720-filtered](https://huggingface.co/datasets/pleisto/wikipedia-cn-20230720-filtered) | 中文Wikipedia的数据 |
-| BaiduBaiKe：[百度网盘](https://pan.baidu.com/s/1jIpCHnWLTNYabftavo3DVw?pwd=bwvb) 提取码: bwvb | 中文BaiduBaiKe的数据 |
-| C4_zh：[百度网盘 part1](https://pan.baidu.com/s/18O2Tj_PPB718K8gnaWrWUQ) 提取码：zv4r；[百度网盘 part2](https://pan.baidu.com/s/11PTgtUfFXvpNkOige9Iw4w) 提取码：sb83；[百度网盘 part3](https://pan.baidu.com/s/1248QfTS8QHPojYW-0fd5jQ) 提取码：l89d | C4是可用的最大语言数据集之一，收集了来自互联网上超过3.65亿个域的超过1560亿个token。C4_zh是其中的一部分 |
-| WuDaoCorpora：[智源研究院BAAI：WuDaoCorpora Text文本预训练数据集](https://data.baai.ac.cn/details/WuDaoCorporaText) |     |
+| pretrain数据集链接 | 描述  | 是否使用 |
+| --- | --- | --- |
+| Wiki中文百科：[wikipedia-cn-20230720-filtered](https://huggingface.co/datasets/pleisto/wikipedia-cn-20230720-filtered) | 中文Wikipedia的数据 | √ |
+| BaiduBaiKe：[百度网盘](https://pan.baidu.com/s/1jIpCHnWLTNYabftavo3DVw?pwd=bwvb) 提取码: bwvb | 中文BaiduBaiKe的数据 | √ |
+| C4_zh：[百度网盘 part1](https://pan.baidu.com/s/18O2Tj_PPB718K8gnaWrWUQ) 提取码：zv4r；[百度网盘 part2](https://pan.baidu.com/s/11PTgtUfFXvpNkOige9Iw4w) 提取码：sb83；[百度网盘 part3](https://pan.baidu.com/s/1248QfTS8QHPojYW-0fd5jQ) 提取码：l89d | C4是可用的最大语言数据集之一，收集了来自互联网上超过3.65亿个域的超过1560亿个token。C4_zh是其中的一部分 | × （暂未加入使用） |
+| WuDaoCorpora：[智源研究院BAAI：WuDaoCorpora Text文本预训练数据集](https://data.baai.ac.cn/details/WuDaoCorporaText) |     | × （暂未加入使用） |
+| 天工数据集：[天工数据集](https://huggingface.co/datasets/Skywork/SkyPile-150B/tree/main/data) |      | √ |
 
 | tokenizer数据集链接 | 描述 |
 | --- | --- |
-| wiki语料[wiki.txt](https://dumps.wikimedia.org/zhwiki/latest/zhwiki-latest-pages-articles-multistream.xml.bz2) | 中文wiki数据，用于训练tokenizer |
+| wiki语料[wiki.txt](https://dumps.wikimedia.org/zhwiki/latest/zhwiki-latest-pages-articles-multistream.xml.bz2) | 中文wiki数据，用于训练tokenizer 来自于[wiki_data](https://dumps.wikimedia.org/zhwiki/)|
 
 # 二、预训练(Pretrain)
 
@@ -34,19 +39,22 @@
 ```bash
 python Tokenizer_1_WikiExtractor.py --infn /data/tokenzier_data/zhwiki-latest-pages-articles-multistream.xml.bz2
 ```
+提取后需手动将`wiki.txt`移动至`/data/tokenzier_data`路径下
 
-第二步将繁体转换为中文，名称可以对应调整，wiki_s为对应的简体版本
+第二步将繁体转换为中文，名称可以对应调整，`wiki_s`为对应的简体版本
 ```bash
-python Tokenizer_2_convert_t2s.py wiki.txt wiki_s.txt
+python Tokenizer_2_convert_wiki_t2s.py
 ```
+
+结果保存在`/data/tokenzier_data/wiki_s.txt`
 
 ## 2 Train Tokenizer
 
-训练tokenizer，将训练预料准备好并放入指定路径后，执行`2_pretrain`中的
+训练tokenizer，将训练预料准备好并放入指定路径后，执行`/2_pretrain`中的
 ```bash
 python 1_train_tokenizer.py
 ```
-训练好后的Tokenizer存储在model_save路径下
+训练好后的Tokenizer存储在`model_save`路径下
 
 ## 3* 继续预训练(Continue-training)
 
