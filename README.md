@@ -48,7 +48,7 @@ python Tokenizer_2_convert_wiki_t2s.py
 
 结果保存在`/data/tokenzier_data/wiki_s.txt`
 
-## 2 Train Tokenizer
+### 1.3 Tokenizer语料训练
 
 训练tokenizer，将训练预料准备好并放入指定路径后，执行`/2_pretrain`中的
 ```bash
