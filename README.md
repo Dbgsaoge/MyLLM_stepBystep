@@ -56,6 +56,13 @@ python 1_train_tokenizer.py
 ```
 训练好后的Tokenizer存储在`model_save`路径下
 
+### 1.4 Pretrain
+预训练。（后续会加入acccelerate 加速，目前以脚本形式运行）执行`/2_pretrain`中的
+```bash
+python 3_pretrain.py
+```
+训练好的checkpoints在model_save路径下
+
 ## 3* 继续预训练(Continue-training)
 
 ### （可能涉及的框架/库：DeepSpeed, Megatron-LM, transformers...）
